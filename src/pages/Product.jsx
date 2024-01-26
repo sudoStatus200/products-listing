@@ -52,10 +52,6 @@ function ProductsPage() {
       return;
     }
 
-    if (quantity < 1) {
-      alert("Add quantity more than 0");
-      return;
-    }
     try {
       const updatedProducts = cloneDeep(cartDetails.products);
       const productIndex = updatedProducts.findIndex(
