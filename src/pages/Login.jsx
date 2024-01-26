@@ -5,6 +5,7 @@ import { setUserData } from "../store/reducers/userReducer";
 import { setCartData } from "../store/reducers/cartSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import _ from "lodash";
 
 function Login() {
   const user = useSelector((state) => state.user.userData);
@@ -29,10 +30,19 @@ function Login() {
 
       // Check if there are existing carts
       if (carts.length > 0) {
-        // Combine products from all carts
-        const combinedProducts = carts.reduce(
-          (acc, cart) => acc.concat(cart.products),
-          [],
+        // Flatten the array of products from all carts
+        const allProducts = _.flatMap(carts, (cart) => cart.products);
+
+        // Group products by productId and sum their quantities
+        const groupedProducts = _.groupBy(allProducts, "productId");
+        const combinedProducts = _.map(
+          groupedProducts,
+          (products, productId) => {
+            return {
+              productId: parseInt(productId),
+              quantity: _.sumBy(products, "quantity"),
+            };
+          },
         );
 
         // Prepare promises for deleting existing carts

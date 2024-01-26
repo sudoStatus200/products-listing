@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 function CartPage() {
   const [productDetails, setProductDetails] = useState([]);
   const cart = useSelector((state) => state.cart.cartDetails);
+  const user = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,12 +29,19 @@ function CartPage() {
     }
   }, [cart]);
 
+  useEffect(() => {
+    if (!user?.sub) {
+      console.log("dfd");
+      navigate(`/`);
+    }
+  }, [user]);
+
   if (productDetails.length === 0) {
     return (
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Cart Details</h1>
 
-        <h4>Cart is Empty, Time to shopping</h4>
+        <h4>Cart is Empty, Time to shop</h4>
       </div>
     );
   }
@@ -41,6 +49,7 @@ function CartPage() {
   const goToProduct = (id) => {
     navigate(`/product/${id}`);
   };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Cart Details</h1>

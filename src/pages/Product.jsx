@@ -53,7 +53,7 @@ function ProductsPage() {
     }
 
     if (quantity < 1) {
-      alert("Addn quantity more than 0");
+      alert("Add quantity more than 0");
       return;
     }
     try {
@@ -76,7 +76,7 @@ function ProductsPage() {
       const updatedCart = {
         userId: user.sub,
         date: formatDate(new Date(), "yyyy-MM-dd"),
-        products: updatedProducts,
+        products: updatedProducts.filter((val) => val.quantity > 0), //Filter products by quantity , no need to save product with 0 quantity
       };
 
       const response = await axios.put(
