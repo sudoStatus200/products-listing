@@ -16,7 +16,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (user?.user) {
+    if (user?.sub) {
       navigate("/");
     }
   }, [user]);
